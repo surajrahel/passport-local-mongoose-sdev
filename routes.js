@@ -27,11 +27,16 @@ module.exports = function (app) {
       res.render('login', { user : req.user });
   });
 
-  app.post('/login', passport.authenticate('local'), function(req, res) {
+  app.post('/login', passport.authenticate('local'),function(req, res) {
       res.redirect('/');
   });
 
-  app.get('/logout', function(req, res) {
+   app.get('/hy',checkAuth, function(req, res) {
+        res.send('hello buddy ');
+   });
+
+
+    app.get('/logout', function(req, res) {
       req.logout();
       res.redirect('/');
   });
@@ -41,3 +46,13 @@ module.exports = function (app) {
   });
   
 };
+function checkAuth(req,res,next){
+
+        if (req.isAuthenticated()){
+            next();
+        }
+        else {
+            res.send("UnAuthorised");
+        }
+
+}
